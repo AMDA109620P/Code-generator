@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word to JSON Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Word to JSON Generator</h1>
+        <label for="word">Word:</label>
+        <input type="text" id="word" placeholder="Enter the word">
+
+        <label for="definition">Definition:</label>
+        <textarea id="definition" rows="3" placeholder="Enter the definition"></textarea>
+
+        <button onclick="generateCode()">Generate Code</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function generateCode() {
+            const word = document.getElementById("word").value.trim();
+            const definition = document.getElementById("definition").value.trim();
+
+            if (word === "" || definition === "") {
+                alert("Please fill in both fields!");
+                return;
+            }
+
+            const jsonOutput = `{ word: "${word}", definition: "${definition}" }`;
+
+            document.getElementById("output").textContent = jsonOutput;
+        }
+    </script>
+</body>
+</html>
