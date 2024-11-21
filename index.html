@@ -46,6 +46,13 @@
             border-radius: 5px;
             font-family: monospace;
         }
+        .copy-btn {
+            margin-top: 10px;
+            background-color: #007BFF;
+        }
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +65,7 @@
         <textarea id="definition" rows="3" placeholder="Enter the definition"></textarea>
 
         <button onclick="generateCode()">Generate Code</button>
+        <button class="copy-btn" onclick="copyToClipboard()">Copy to Clipboard</button>
 
         <div class="output" id="output"></div>
     </div>
@@ -72,9 +80,23 @@
                 return;
             }
 
-            const jsonOutput = `{ word: "${word}", definition: "${definition}" }`;
+            const jsonOutput = `{ word: "${word}", definition: "${definition}" },`;
 
             document.getElementById("output").textContent = jsonOutput;
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById("output").textContent;
+            if (output === "") {
+                alert("Nothing to copy! Please generate the code first.");
+                return;
+            }
+
+            navigator.clipboard.writeText(output).then(() => {
+                alert("Code copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy! Please try again.");
+            });
         }
     </script>
 </body>
