@@ -45,6 +45,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-family: monospace;
+            white-space: pre-wrap; /* Ensures line breaks */
         }
         .copy-btn {
             margin-top: 10px;
@@ -52,6 +53,12 @@
         }
         .copy-btn:hover {
             background-color: #0056b3;
+        }
+        .clear-btn {
+            background-color: #FF5733;
+        }
+        .clear-btn:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
@@ -66,11 +73,16 @@
 
         <button onclick="generateCode()">Generate Code</button>
         <button class="copy-btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <button class="clear-btn" onclick="clearOutput()">Clear Output</button>
 
         <div class="output" id="output"></div>
     </div>
 
     <script>
+        // Store generated JSON objects in an array
+        const outputStack = [];
+
+        // Generate new JSON and add it to the stack
         function generateCode() {
             const word = document.getElementById("word").value.trim();
             const definition = document.getElementById("definition").value.trim();
@@ -80,15 +92,29 @@
                 return;
             }
 
+            // Create the JSON object and push to the stack
             const jsonOutput = `{ word: "${word}", definition: "${definition}" },`;
+            outputStack.push(jsonOutput);
 
-            document.getElementById("output").textContent = jsonOutput;
+            // Update the output box
+            displayOutput();
+
+            // Clear input fields for new entry
+            document.getElementById("word").value = "";
+            document.getElementById("definition").value = "";
         }
 
+        // Display the current stack in the output box
+        function displayOutput() {
+            const outputDiv = document.getElementById("output");
+            outputDiv.textContent = outputStack.join("\n");
+        }
+
+        // Copy all the stacked JSON objects to the clipboard
         function copyToClipboard() {
             const output = document.getElementById("output").textContent;
             if (output === "") {
-                alert("Nothing to copy! Please generate the code first.");
+                alert("Nothing to copy! Please generate some code first.");
                 return;
             }
 
@@ -97,6 +123,12 @@
             }).catch(err => {
                 alert("Failed to copy! Please try again.");
             });
+        }
+
+        // Clear the stack and the output box
+        function clearOutput() {
+            outputStack.length = 0; // Clear the stack
+            displayOutput(); // Update the output box
         }
     </script>
 </body>
